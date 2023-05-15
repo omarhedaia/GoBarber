@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signin_nav_host"
+    app:startDestination="@id/signInSignUpFragment">
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.hedaia.gobarber.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" />
+    <fragment
+        android:id="@+id/signInSignUpFragment"
+        android:name="com.hedaia.gobarber.SignInSignUpFragment"
+        android:label="fragment_sign_in_sign_up"
+        tools:layout="@layout/fragment_sign_in_sign_up" >
+        <action
+            android:id="@+id/action_signInSignUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_signInSignUpFragment_to_singUpFragment"
+            app:destination="@id/singUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singUpFragment"
+        android:name="com.hedaia.gobarber.SingUpFragment"
+        android:label="fragment_sing_up"
+        tools:layout="@layout/fragment_sing_up" >
+        <action
+            android:id="@+id/action_singUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+</navigation>

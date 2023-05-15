@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customer_tabs_host"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.hedaia.gobarber.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/barbersLocationFragment"
+        android:name="com.hedaia.gobarber.BarbersLocationFragment"
+        android:label="fragment_barbers_location"
+        tools:layout="@layout/fragment_barbers_location" />
+    <fragment
+        android:id="@+id/customerProfileFragment"
+        android:name="com.hedaia.gobarber.CustomerProfileFragment"
+        android:label="fragment_customer_profile"
+        tools:layout="@layout/fragment_customer_profile" />
+</navigation>

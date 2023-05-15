@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/darkBlue"
+    tools:context=".SignInFragment">
+
+    <LinearLayout
+        android:id="@+id/userTypeLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        >
+
+        <androidx.appcompat.widget.AppCompatToggleButton
+            android:id="@+id/customer_toggle_btn"
+            android:layout_width="0dp"
+            android:textOn="Customer"
+            android:textOff="Customer"
+            android:checked="true"
+            android:textColor="@color/lightYellow"
+            android:background="@drawable/user_type_shape"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="Customer"/>
+
+        <androidx.appcompat.widget.AppCompatToggleButton
+            android:id="@+id/barber_toggle_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textOn="Barber"
+            android:textOff="Barber"
+            android:textColor="@color/lightYellow"
+            android:background="@drawable/user_type_shape"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="Barber"/>
+
+
+    </LinearLayout>
+
+    <ScrollView
+        app:layout_constraintTop_toBottomOf="@id/userTypeLayout"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            >
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:layout_margin="5dp"
+                app:hintTextColor="@color/yellow"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:layout_margin="5dp"
+                app:hintTextColor="@color/yellow"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+           <androidx.appcompat.widget.AppCompatButton
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="5dp"
+               android:background="@drawable/buttons_shape"
+               android:text="Signin"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

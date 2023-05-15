@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/darkBlue"
+    tools:context=".SignInSignUpFragment">
+
+    <ImageView
+        android:id="@+id/cornerIV"
+        android:layout_width="match_parent"
+        android:scaleType="fitStart"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+
+        />
+
+    <TextView
+        android:id="@+id/welcomeTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cornerIV"
+        android:textColor="@color/lightYellow"
+        android:textSize="20sp"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:text="Welcome Back!"/>
+
+<ImageView
+    android:id="@+id/appLogoIV"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/welcomeTV"
+    android:layout_marginTop="50dp"
+    android:layout_marginBottom="50dp"
+    android:src="@drawable/hair_dryer"
+
+    />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/appLogoIV"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="16dp"
+        android:weightSum="3"
+        >
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signInNavBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="18sp"
+            android:background="@drawable/buttons_shape"
+            android:text="SignIn"
+            android:layout_weight="1"
+            />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/signUpNavBtn"
+            app:layout_constraintTop_toBottomOf="@id/signInNavBtn"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signUpNavBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/divider1"
+            android:layout_margin="16dp"
+            android:background="@drawable/buttons_shape"
+            android:textSize="18sp"
+            android:text="SignUp"
+            android:layout_weight="1"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
