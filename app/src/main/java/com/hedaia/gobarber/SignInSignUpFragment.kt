@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.hedaia.gobarber.databinding.FragmentSignInSignUpBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +23,9 @@ class SignInSignUpFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+
+    lateinit var binding:FragmentSignInSignUpBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,7 +39,9 @@ class SignInSignUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_in_sign_up, container, false)
+        binding = FragmentSignInSignUpBinding.inflate(layoutInflater)
+
+        return binding.root
     }
 
     companion object {
@@ -56,4 +63,20 @@ class SignInSignUpFragment : Fragment() {
                 }
             }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+            signInNavBtn.setOnClickListener{
+
+                findNavController().navigate(R.id.action_signInSignUpFragment_to_signInFragment)
+
+            }
+
+
+        }
+
+    }
+
 }
