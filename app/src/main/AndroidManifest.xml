@@ -29,8 +29,8 @@
             android:name=".CustomerActivity"
             android:exported="false" />
 
-
         <activity
+
             android:name=".SignActivity"
             android:exported="true">
             <intent-filter>
