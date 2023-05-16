@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,18 +15,18 @@
         >
 
         <TextView
+            android:id="@+id/salonName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Find salons nearby"
             android:layout_margin="16dp"
             android:layout_marginTop="20dp"
+            android:text="Find salons nearby"
+            android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/home_item_iv"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/home_item_iv"
@@ -58,20 +59,20 @@
             android:textSize="18sp"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ReservationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Find a salon"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:textSize="16sp"
-            android:textStyle="normal"
-            android:textAllCaps="false"
-            app:layout_constraintTop_toBottomOf="@id/description_item_iv"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="16dp"
             android:background="@drawable/circular_button_background"
-            />
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="Find a salon"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description_item_iv" />
 
 
 

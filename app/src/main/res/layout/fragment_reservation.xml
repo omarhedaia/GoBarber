@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkBlue"
+    tools:context=".ReservationFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/barbersRV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/servicesRV"
+            app:spanCount="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="3"
+            tools:listitem="@layout/barbers_row" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/servicesRV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/detailsLL"
+            app:layout_constraintTop_toBottomOf="@id/barbersRV"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:itemCount="3"
+            tools:listitem="@layout/services_row" />
+
+        <LinearLayout
+            android:id="@+id/detailsLL"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="15dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/servicesRV"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/totalprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:text="Total Price: "
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
+/>
+
+                <TextView
+                    android:id="@+id/price_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
+                    android:textAlignment="center"
+                    android:textSize="13sp"
+                    android:text=""
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/totaltime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
+                    android:text="Total Time: "
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
+/>
+
+                <TextView
+                    android:id="@+id/time_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+
+                    android:textAlignment="center"
+                    android:textSize="13sp"
+                    android:text=""
+                    android:textColor="@color/white"/>
+/>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bookBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="BOOK"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:padding="5dp"
+                android:background="@drawable/circular_button_background"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                />
+        </LinearLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightBlue"
+            app:itemIconTint="@color/color_nav"
+            app:itemTextColor="@color/color_nav"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/customer_menu" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

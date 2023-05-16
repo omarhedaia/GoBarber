@@ -1,35 +1,37 @@
 package com.hedaia.gobarber
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.hedaia.gobarber.Models.Customer
+import com.hedaia.gobarber.ViewModels.CustomersViewModel
 import com.hedaia.gobarber.databinding.FragmentSignInBinding
+import java.math.BigInteger
+import java.security.MessageDigest
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SignInFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class SignInFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     lateinit var binding:FragmentSignInBinding
+    lateinit var viewModel: CustomersViewModel
+    var users = arrayListOf<Customer>()
+
+    companion object userData{
+        var currentCustomer: Customer? =null
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -37,30 +39,17 @@ class SignInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         binding = FragmentSignInBinding.inflate(layoutInflater)
 
-        return binding.root
-    }
+        viewModel= ViewModelProvider(this).get(CustomersViewModel::class.java)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SignInFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SignInFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        viewModel.getUsers().observe(viewLifecycleOwner){
+            users.clear()
+            users.addAll(it)
+            Log.d("TAG", "onCreate: $users ")
+        }
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,8 +57,42 @@ class SignInFragment : Fragment() {
 
 
         binding.apply {
-
+            signinBtn.setOnClickListener {
+                val userEmail=useremailTxt.text
+                val userPassword=userpasswordTxt.text
+                if(userEmail!!.isNotEmpty()&&userPassword!!.isNotEmpty()){
+                    for (user in users) {
+                        println(" for (user in users), ${user.name} in $users")
+                        if (userEmail.toString() == user.email) {
+                            checkUserLogin(userPassword.toString(), user)
+                            userEmail.clear()
+                            userPassword.clear()
+                        }
+                    }
+                }else{
+                    Toast.makeText(context,"Please Enter you information", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
+    }
+    private fun checkUserLogin(password: String, user: Customer) {
+        if(md5Hash(password)==user.password!!){
+            currentCustomer=user
+            Log.d("MainActivity", "checkUserLogin: $currentCustomer")
+            val intent= Intent(requireContext(),CustomerActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }else{
+            Toast.makeText(context,"Please make sure from your password", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    //This function to hash password before compare it with one in database
+    private fun md5Hash(str: String): String {
+        val md = MessageDigest.getInstance("MD5")
+        val bigInt = BigInteger(1, md.digest(str.toByteArray(Charsets.UTF_8)))
+        val UserPassword =String.format("%032x", bigInt)
+        return UserPassword
     }
 }

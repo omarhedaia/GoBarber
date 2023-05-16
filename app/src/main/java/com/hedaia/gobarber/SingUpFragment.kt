@@ -1,32 +1,32 @@
 package com.hedaia.gobarber
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.hedaia.gobarber.Models.Customer
+import com.hedaia.gobarber.ViewModels.CustomersViewModel
+import com.hedaia.gobarber.databinding.FragmentSingUpBinding
+import java.math.BigInteger
+import java.security.MessageDigest
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SingUpFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SingUpFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+
+    private lateinit var binding:FragmentSingUpBinding
+    lateinit var viewModel: CustomersViewModel
+    var users= arrayListOf<Customer>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -34,26 +34,54 @@ class SingUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sing_up, container, false)
-    }
+        binding=FragmentSingUpBinding.inflate(layoutInflater)
+        viewModel= ViewModelProvider(this).get(CustomersViewModel::class.java)
+        viewModel.getUsers().observe(viewLifecycleOwner){
+            users.clear()
+            users.addAll(it)
+            Log.d("TAG", "onCreate: $users")
+        }
+        binding.apply {
+            signupBtn.setOnClickListener {
+                val userEmail=useremail.text
+                val userConfirmEmail=confirmEmail.text
+                val userPass=userPassword.text
+                val userConfirmPass=confirmPassword.text
+                val userName=username.text
+                val userPhone=userPhone.text
+                if (userEmail!!.isNotEmpty() && userPass!!.isNotEmpty() &&
+                    userName!!.isNotEmpty() && userPhone!!.isNotEmpty()) {
+                   /* if(userEmail==userConfirmEmail){
+                        if(userPass==userConfirmPass){*/
+                            var newUser = Customer(
+                                userEmail.toString(), userName.toString(),
+                                md5Hash(userPass.toString()), userPhone.toString())
+                            viewModel.saveUser(newUser)
+                            Toast.makeText(context, "Customer Added", Toast.LENGTH_LONG).show()
+                            Log.d("Data", "AddProcess: $newUser ")
+                            findNavController().navigate(R.id.action_singUpFragment_to_signInFragment)
+                       /* }else{
+                            Toast.makeText(context, "Passwords must be match", Toast.LENGTH_LONG).show()
+                        }
+                    }else{
+                        Toast.makeText(context, "Emails must be match", Toast.LENGTH_LONG).show()
+                    }*/
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SingUpFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SingUpFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                }else{
+                    Toast.makeText(context, "Enter all your information, Please!", Toast.LENGTH_LONG).show()
                 }
             }
+        }
+
+
+        return binding.root
     }
+    private fun md5Hash(str: String): String {
+        val md = MessageDigest.getInstance("MD5")
+        val bigInt = BigInteger(1, md.digest(str.toByteArray(Charsets.UTF_8)))
+        val UserPassword =String.format("%032x", bigInt)
+        return UserPassword
+    }
+
+
 }
