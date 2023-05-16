@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "215279667543",
+    "firebase_url": "https://goldenscisoor-default-rtdb.firebaseio.com",
+    "project_id": "goldenscisoor",
+    "storage_bucket": "goldenscisoor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215279667543:android:e38fdfcda7c0d29d891612",
+        "android_client_info": {
+          "package_name": "com.example.testgolden"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215279667543-ai0kjd61ddr0iip8j884mdad2dqp9m10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA2BBNqxuxp2HLqXNNWOHSS80GbctXAQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215279667543-ai0kjd61ddr0iip8j884mdad2dqp9m10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215279667543:android:127288084c9855d9891612",
+        "android_client_info": {
+          "package_name": "com.hedaia.gobarber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215279667543-ai0kjd61ddr0iip8j884mdad2dqp9m10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA2BBNqxuxp2HLqXNNWOHSS80GbctXAQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215279667543-ai0kjd61ddr0iip8j884mdad2dqp9m10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
