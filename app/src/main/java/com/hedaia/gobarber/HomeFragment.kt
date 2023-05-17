@@ -56,8 +56,8 @@ class HomeFragment : Fragment(), AgendaAdapter.onClick {
         }
 
         binding.apply {
-            bottomNavigation.setSelectedItemId(R.id.homeid)
-            bottomNavigation()
+//            bottomNavigation.setSelectedItemId(R.id.homeid)
+//            bottomNavigation()
             welcomeTV.text="Welcome Back ${currentCustomer!!.name} !"
             serviceProviderRv.adapter=agendaAdapter
         }
@@ -76,32 +76,32 @@ class HomeFragment : Fragment(), AgendaAdapter.onClick {
             if (serviceProvider == current.name) {
                 currentServiceProvider = current
                 Log.d("currentServiceProvider", "$currentServiceProvider ")
-                findNavController().navigate(R.id.action_homeFragment_to_reservationFragment)
+//                findNavController().navigate(R.id.action_homeFragment_to_reservationFragment)
             }
         }
     }
 
-
-    private fun bottomNavigation() {
-        // Perform item selected listener
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-
-                R.id.homeid -> {return@OnNavigationItemSelectedListener true }
-
-                R.id.searchid -> {
-                   findNavController().navigate(R.id.action_homeFragment_to_barbersLocationFragment)
-                    return@OnNavigationItemSelectedListener true
-                }
-
-                R.id.profileid -> {
-                    findNavController().navigate(R.id.action_homeFragment_to_customerProfileFragment)
-                    return@OnNavigationItemSelectedListener true
-                }
-            }
-            false
-        })
-    }
+//
+//    private fun bottomNavigation() {
+//        // Perform item selected listener
+//        binding.bottomNavigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
+//            when (item.itemId) {
+//
+//                R.id.homeid -> {return@OnNavigationItemSelectedListener true }
+//
+//                R.id.searchid -> {
+//                   findNavController().navigate(R.id.action_homeFragment_to_barbersLocationFragment)
+//                    return@OnNavigationItemSelectedListener true
+//                }
+//
+//                R.id.profileid -> {
+//                    findNavController().navigate(R.id.action_homeFragment_to_customerProfileFragment)
+//                    return@OnNavigationItemSelectedListener true
+//                }
+//            }
+//            false
+//        })
+//    }
 
 
 }

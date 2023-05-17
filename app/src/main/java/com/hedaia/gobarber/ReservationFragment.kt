@@ -93,6 +93,11 @@ class ReservationFragment : Fragment(),BarbersAdapter.onClick,ServicesAdapter.on
                         Toast.LENGTH_SHORT).show()
                 }
             }
+
+            backToSearchIV.setOnClickListener{
+                goBackToSearchFragment()
+            }
+
         }
 
 
@@ -138,6 +143,10 @@ class ReservationFragment : Fragment(),BarbersAdapter.onClick,ServicesAdapter.on
             timeCount.text= time.toString() +" Minutes."
         }
         Log.d("Reservation", "Userservices: $servicesUserList")
+    }
+
+    fun goBackToSearchFragment(){
+        findNavController().navigate(R.id.action_reservationFragment_to_barbersLocationFragment)
     }
 
 }

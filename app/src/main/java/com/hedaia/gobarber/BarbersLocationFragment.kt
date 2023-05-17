@@ -27,7 +27,7 @@ import com.hedaia.gobarber.Views.BarbersAdapter
 import com.hedaia.gobarber.Views.ServicesProvidersAdapter
 import com.hedaia.gobarber.databinding.FragmentBarbersLocationBinding
 
-class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick {
+class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMapReadyCallback {
 
     lateinit var binding: FragmentBarbersLocationBinding
     lateinit var viewModel: CustomersViewModel
@@ -36,20 +36,18 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick {
 
 
 
-    private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-    }
+//    private val callback = OnMapReadyCallback { googleMap ->
+//        /**
+//         * Manipulates the map once available.
+//         * This callback is triggered when the map is ready to be used.
+//         * This is where we can add markers or lines, add listeners or move the camera.
+//         * In this case, we just add a marker near Sydney, Australia.
+//         * If Google Play services is not installed on the device, the user will be prompted to
+//         * install it inside the SupportMapFragment. This method will only be triggered once the
+//         * user has installed Google Play services and returned to the app.
+//         */
+//
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,8 +68,8 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick {
 
         binding.apply {
             barbersRV.adapter=servicesProvidersAdapter
-            bottomNavigation.setSelectedItemId(R.id.searchid)
-            bottomNavigation()
+//            bottomNavigation.setSelectedItemId(R.id.searchid)
+//            bottomNavigation()
 
 
         }
@@ -82,33 +80,20 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
-    }
-
-    private fun bottomNavigation() {
-        // Perform item selected listener
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-
-                R.id.homeid -> { findNavController().navigate(R.id.action_barbersLocationFragment_to_homeFragment)
-                    return@OnNavigationItemSelectedListener true }
-
-                R.id.searchid -> {
-                    return@OnNavigationItemSelectedListener true
-                }
-
-                R.id.profileid -> {
-                    findNavController().navigate(R.id.action_barbersLocationFragment_to_customerProfileFragment)
-                    return@OnNavigationItemSelectedListener true
-                }
-            }
-            false
-        })
+        mapFragment?.getMapAsync(this)
     }
 
     override fun setserviceProvider(serviceProvider: ServiceProvider) {
         currentServiceProvider=serviceProvider
         findNavController().navigate(R.id.action_barbersLocationFragment_to_reservationFragment)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+
+        val sydney = LatLng(-34.0, 151.0)
+        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
     }
 
 
