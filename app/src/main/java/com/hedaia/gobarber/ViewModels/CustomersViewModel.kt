@@ -1,6 +1,7 @@
 package com.hedaia.gobarber.ViewModels
 
 import android.app.Application
+import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.hedaia.gobarber.Models.Agenda
@@ -35,6 +36,10 @@ class CustomersViewModel(application: Application): AndroidViewModel(application
 
     fun getServiceProvider(): LiveData<List<ServiceProvider>> {
         return repository.getServiceProvider()
+    }
+
+    fun getNearbyServiceProvider(userLocation: Location): LiveData<List<ServiceProvider>> {
+        return repository.getNearbyServiceProvider(userLocation)
     }
 
 

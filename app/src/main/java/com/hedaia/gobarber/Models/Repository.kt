@@ -1,5 +1,6 @@
 package com.hedaia.gobarber.Models
 
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,6 +59,26 @@ class Repository {
         }
         return servicesProvidersLiveData
     }
+
+    fun getNearbyServiceProvider(userLocation: Location):LiveData<List<ServiceProvider>> {
+        // Read from the database
+        myRef.child("ServiceProvider").get().addOnSuccessListener {
+            val value =
+                it.children.map { dataSnapshot -> dataSnapshot.getValue(ServiceProvider::class.java)!! }
+            val nearbyServiceProviders = value.filter { serviceProvider ->
+                val lat = serviceProvider.latitude
+                val long = serviceProvider.longitude
+                val serviceProviderLocation = Location(serviceProvider.name)
+                serviceProviderLocation.latitude = lat!!.toDouble()
+                serviceProviderLocation.longitude= long!!.toDouble()
+
+                userLocation.distanceTo(serviceProviderLocation) < 10000
+            }
+            servicesProvidersLiveData.postValue(nearbyServiceProviders)
+        }
+        return servicesProvidersLiveData
+    }
+
     fun getService(serviceProvider:ServiceProvider): LiveData<List<Services>> {
         // Read from the database
         myRef.child("Services").child(serviceProvider.name.toString()).get().addOnSuccessListener {
