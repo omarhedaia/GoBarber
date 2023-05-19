@@ -193,6 +193,7 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
         Log.d(TAG, "addUserLocation: ")
         currentLocationMarker.remove()
 
+        currentGoogleMap.clear()
         val newCurrentLocation = LatLng(localUserLocation.latitude, localUserLocation.longitude)
         val markerOptions = MarkerOptions()
         markerOptions.position(newCurrentLocation)
