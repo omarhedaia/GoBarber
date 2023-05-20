@@ -31,6 +31,7 @@ import com.hedaia.gobarber.Models.ServiceProviderLocation
 import com.hedaia.gobarber.ViewModels.CustomersViewModel
 import com.hedaia.gobarber.Views.ServicesProvidersAdapter
 import com.hedaia.gobarber.databinding.BarberInfoMarkerBinding
+import com.hedaia.gobarber.databinding.CurrentLocationLayoutBinding
 import com.hedaia.gobarber.databinding.FragmentBarbersLocationBinding
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -183,6 +184,38 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
 
         currentGoogleMap = googleMap
 
+        currentGoogleMap.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+            override fun getInfoContents(marker: Marker): View? {
+               return null
+
+
+            }
+
+            override fun getInfoWindow(marker: Marker): View {
+                val barberInfoMarkerBinding = BarberInfoMarkerBinding.inflate(LayoutInflater.from(requireContext()),null,false)
+                val currentLocationLayoutBinding = CurrentLocationLayoutBinding.inflate(LayoutInflater.from(requireContext()),null,false)
+
+
+                val serviceProviderDto:ServiceProviderLocation? = marker.tag as ServiceProviderLocation?
+                if (serviceProviderDto!=null)
+                {
+                    barberInfoMarkerBinding.apply {
+                        val distanceString = "${serviceProviderDto.distance} km"
+                        barberTitleTv.text = serviceProviderDto.name
+                        barberDistanceTv.text = distanceString
+                        barberMintimeTv.text = serviceProviderDto.minimumWaitTime.toString()
+                        barberMaxtimeTv.text = serviceProviderDto.maximumWaitTime.toString()
+                        barberImageIv.setImageResource(R.drawable.afro)
+                    }
+                    return barberInfoMarkerBinding.root
+
+                }else{
+                    return currentLocationLayoutBinding.root
+
+                }
+            }
+
+        })
 
     }
 
@@ -214,29 +247,38 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
                 for (serviceProvider in serviceProviders) {
                     Log.d("markerLocation", "onViewCreated: ${serviceProvider.name}")
 
-                    val serviceProviderMarkerBinding =
-                        BarberInfoMarkerBinding.inflate(layoutInflater)
 
-                    serviceProviderMarkerBinding.apply {
 
-                        val distanceString = "${serviceProvider.distance} km"
-                        barberTitleTv.text = serviceProvider.name
-                        barberDistanceTv.text = distanceString
-                        barberMintimeTv.text = serviceProvider.minimumWaitTime.toString()
-                        barberMaxtimeTv.text = serviceProvider.maximumWaitTime.toString()
-                        barberImageIv.setImageResource(R.drawable.afro)
+
+//                    val serviceProviderMarkerBinding =
+//                        BarberInfoMarkerBinding.inflate(layoutInflater)
+//
+//                    serviceProviderMarkerBinding.apply {
+
+
+//                        val distanceString = "${serviceProvider.distance} km"
+//                        barberTitleTv.text = serviceProvider.name
+//                        barberDistanceTv.text = distanceString
+//                        barberMintimeTv.text = serviceProvider.minimumWaitTime.toString()
+//                        barberMaxtimeTv.text = serviceProvider.maximumWaitTime.toString()
+//                        barberImageIv.setImageResource(R.drawable.afro)
                         val latitude = serviceProvider.latitude
                         Log.d("markerLocation", "onMapReady: latitude = $latitude ")
                         val longitude = serviceProvider.longitude
                         Log.d("markerLocation", "onMapReady: longitude = $longitude ")
 
                         val location = LatLng(latitude!!.toDouble(), longitude!!.toDouble())
-                        val barberIcon = bitmapToSmallMarker(serviceProviderMarkerBinding.root)
-                        currentGoogleMap.addMarker(
-                            MarkerOptions().position(location).title(serviceProvider.name)
-                                .icon(barberIcon)
-                        )
-                    }
+//                        val barberIcon = bitmapToSmallMarker(serviceProviderMarkerBinding.root)
+
+                    val serviceMarkerOptions = MarkerOptions()
+                    serviceMarkerOptions.title(serviceProvider.name)
+                    serviceMarkerOptions.position(location)
+
+
+                    currentGoogleMap.addMarker(
+                        serviceMarkerOptions
+                    )!!.tag = serviceProvider
+//                    }
 
 
                 }
