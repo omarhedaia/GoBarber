@@ -9,7 +9,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.hedaia.gobarber.databinding.ActivityCustomerBinding
 
-class CustomerActivity : AppCompatActivity() {
+class CustomerActivity : AppCompatActivity(){
     lateinit var binding: ActivityCustomerBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,4 +20,8 @@ class CustomerActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
 
     }
+
+
+
+
 }

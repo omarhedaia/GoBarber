@@ -35,7 +35,7 @@ class ServicesProvidersAdapter(var clickListener: onClick): RecyclerView.Adapter
 
 
 
-    fun updateList(serviceProvidersList:ArrayList<ServiceProvider>){
+    fun updateList(serviceProvidersList:List<ServiceProvider>){
         this.serviceProvidersList = serviceProvidersList
         notifyDataSetChanged()
     }

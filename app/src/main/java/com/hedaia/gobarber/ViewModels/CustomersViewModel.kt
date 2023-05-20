@@ -4,13 +4,8 @@ import android.app.Application
 import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.hedaia.gobarber.Models.Agenda
-import com.hedaia.gobarber.Models.Barbers
-import com.hedaia.gobarber.Models.Customer
-import com.hedaia.gobarber.Models.Repository
-import com.hedaia.gobarber.Models.Reservation
-import com.hedaia.gobarber.Models.ServiceProvider
-import com.hedaia.gobarber.Models.Services
+import androidx.lifecycle.Transformations
+import com.hedaia.gobarber.Models.*
 
 class CustomersViewModel(application: Application): AndroidViewModel(application) {
     var repository: Repository
@@ -38,7 +33,8 @@ class CustomersViewModel(application: Application): AndroidViewModel(application
         return repository.getServiceProvider()
     }
 
-    fun getNearbyServiceProvider(userLocation: Location): LiveData<List<ServiceProvider>> {
+    fun getNearbyServiceProvider(userLocation: Location): LiveData<List<ServiceProviderLocation>> {
+
         return repository.getNearbyServiceProvider(userLocation)
     }
 

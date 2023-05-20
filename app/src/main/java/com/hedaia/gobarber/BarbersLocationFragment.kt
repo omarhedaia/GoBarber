@@ -5,9 +5,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationRequest
+import android.location.*
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -29,6 +27,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.hedaia.gobarber.HomeFragment.userData.currentServiceProvider
 import com.hedaia.gobarber.Models.ServiceProvider
+import com.hedaia.gobarber.Models.ServiceProviderLocation
 import com.hedaia.gobarber.ViewModels.CustomersViewModel
 import com.hedaia.gobarber.Views.ServicesProvidersAdapter
 import com.hedaia.gobarber.databinding.BarberInfoMarkerBinding
@@ -40,6 +39,8 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
 import com.karumi.dexter.listener.single.PermissionListener
+import java.util.*
+
 
 
 class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMapReadyCallback,
@@ -48,7 +49,7 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
     val TAG = "BarbersLocation"
     lateinit var binding: FragmentBarbersLocationBinding
     lateinit var viewModel: CustomersViewModel
-    var serviceProviders = arrayListOf<ServiceProvider>()
+    var serviceProviders = arrayListOf<ServiceProviderLocation>()
     lateinit var servicesProvidersAdapter: ServicesProvidersAdapter
     lateinit var currentGoogleMap: GoogleMap
     lateinit var currentLocationMarker: Marker
@@ -91,7 +92,6 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
             ACCESS_COARSE_LOCATION
         )
             .withListener(object : MultiplePermissionsListener {
-                @RequiresApi(Build.VERSION_CODES.S)
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     if (report != null) {
                         if (report.areAllPermissionsGranted()) {
@@ -129,7 +129,6 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     private fun getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -190,6 +189,7 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
 
     fun addUserLocation(localUserLocation: Location) {
 
+        changeCityName(localUserLocation)
         Log.d(TAG, "addUserLocation: ")
         currentLocationMarker.remove()
 
@@ -208,7 +208,8 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
             serviceProviders.addAll(it)
             Log.d(TAG, "addUserLocation: viewmodel")
             Log.d("TAG", "onCreate: $serviceProviders")
-            servicesProvidersAdapter.updateList(serviceProviders)
+            val serviceProviderList = it.map { serviceProviderLocation -> ServiceProvider(serviceProviderLocation.name,serviceProviderLocation.longitude,serviceProviderLocation.latitude) }
+            servicesProvidersAdapter.updateList(serviceProviderList)
             if (currentGoogleMap != null) {
                 for (serviceProvider in serviceProviders) {
                     Log.d("markerLocation", "onViewCreated: ${serviceProvider.name}")
@@ -218,8 +219,11 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
 
                     serviceProviderMarkerBinding.apply {
 
+                        val distanceString = "${serviceProvider.distance} km"
                         barberTitleTv.text = serviceProvider.name
-                        barberDistanceTv.text = "20km"
+                        barberDistanceTv.text = distanceString
+                        barberMintimeTv.text = serviceProvider.minimumWaitTime.toString()
+                        barberMaxtimeTv.text = serviceProvider.maximumWaitTime.toString()
                         barberImageIv.setImageResource(R.drawable.afro)
                         val latitude = serviceProvider.latitude
                         Log.d("markerLocation", "onMapReady: latitude = $latitude ")
@@ -299,4 +303,35 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
 
         })
     }
+
+
+    fun changeCityName(location:Location){
+
+        val geocoder = Geocoder(requireContext(), Locale.ENGLISH)
+        if (Build.VERSION.SDK_INT >= 33) {
+            val geocodeListener = object : Geocoder.GeocodeListener {
+                override fun onGeocode(addresses: MutableList<Address>) {
+                    if (!addresses.isEmpty()) {
+                        val addressString = "${addresses[0].locality}, ${addresses[0].countryName}"
+
+                        binding.locationTv.text = addressString
+                    }
+                }
+
+            }
+            geocoder.getFromLocation(location.latitude,location.longitude,1,geocodeListener)
+        }
+        else
+        {
+            val addresses = geocoder.getFromLocation(location.latitude,location.longitude,1)
+            if (!addresses.isNullOrEmpty())
+            {
+                val addressString = "${addresses[0].locality}, ${addresses[0].countryName}"
+                binding.locationTv.text = addressString
+            }
+        }
+
+    }
+
+
 }
