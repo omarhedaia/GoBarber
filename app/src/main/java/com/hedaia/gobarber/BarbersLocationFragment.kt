@@ -2,9 +2,9 @@ package com.hedaia.gobarber
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.graphics.*
 import android.location.*
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -304,6 +305,15 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
     fun resourceToBitmap(resourceImage: Int): Bitmap {
 
         val bitmap = AppCompatResources.getDrawable(requireContext(),resourceImage)!!.toBitmap(100,100,Bitmap.Config.ARGB_8888)
+        val paint = Paint()
+        val filter: ColorFilter = PorterDuffColorFilter(
+            resources.getColor(R.color.red),
+            PorterDuff.Mode.SRC_IN
+        )
+        paint.colorFilter = filter
+
+        val canvas = Canvas(bitmap)
+        canvas.drawBitmap(bitmap, 0f, 0f, paint)
         return bitmap
     }
 
