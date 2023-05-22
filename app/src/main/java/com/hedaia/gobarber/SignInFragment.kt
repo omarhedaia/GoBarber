@@ -1,6 +1,8 @@
 package com.hedaia.gobarber
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -22,6 +24,7 @@ class SignInFragment : Fragment() {
 
     lateinit var binding:FragmentSignInBinding
     lateinit var viewModel: CustomersViewModel
+    lateinit var userSigninSharedPref:SharedPreferences
     var users = arrayListOf<Customer>()
 
     companion object userData{
@@ -43,10 +46,28 @@ class SignInFragment : Fragment() {
 
         viewModel= ViewModelProvider(this).get(CustomersViewModel::class.java)
 
+        userSigninSharedPref = requireActivity().getSharedPreferences("user_signin", Context.MODE_PRIVATE)
+
         viewModel.getUsers().observe(viewLifecycleOwner){
             users.clear()
             users.addAll(it)
             Log.d("TAG", "onCreate: $users ")
+
+            val rememberMeBoolean = userSigninSharedPref.getBoolean("rememberMeCB",false)
+            if (rememberMeBoolean)
+            {
+                binding.rememberMeCb.isChecked = rememberMeBoolean
+                val userEmail = userSigninSharedPref.getString("userEmail","")!!
+                val userPassword = userSigninSharedPref.getString("userPassword","")!!
+                for (user in users) {
+                    println(" for (user in users), ${user.name} in $users")
+                    if (userEmail.toString() == user.email) {
+                        checkUserLogin(userPassword.toString(), user)
+                    }
+                }
+
+            }
+
         }
 
         return binding.root
@@ -54,23 +75,26 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var userEmail = ""
+        var userPassword = ""
+
 
 
         binding.apply {
             signinBtn.setOnClickListener {
-                val userEmail=useremailTxt.text
-                val userPassword=userpasswordTxt.text
+                 userEmail = useremailTxt.text.toString()
+                 userPassword = userpasswordTxt.text.toString()
                 if(userEmail!!.isNotEmpty()&&userPassword!!.isNotEmpty()){
                     for (user in users) {
                         println(" for (user in users), ${user.name} in $users")
                         if (userEmail.toString() == user.email) {
                             checkUserLogin(userPassword.toString(), user)
-                            userEmail.clear()
-                            userPassword.clear()
+                            useremailTxt.text!!.clear()
+                            userpasswordTxt.text!!.clear()
                         }
                     }
                 }else{
-                    Toast.makeText(context,"Please Enter you information", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Please Enter your information", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -81,6 +105,15 @@ class SignInFragment : Fragment() {
             currentCustomer=user
             Log.d("MainActivity", "checkUserLogin: $currentCustomer")
             val intent= Intent(requireContext(),CustomerActivity::class.java)
+            if (binding.rememberMeCb.isChecked)
+            {
+                val userSharedPreferencesEditor = userSigninSharedPref.edit()
+                userSharedPreferencesEditor.putBoolean("rememberMeCB",true)
+                userSharedPreferencesEditor.putString("userEmail",user.email)!!
+                userSharedPreferencesEditor.putString("userPassword",password)!!
+                userSharedPreferencesEditor.apply()
+            }
+
             startActivity(intent)
             requireActivity().finish()
         }else{

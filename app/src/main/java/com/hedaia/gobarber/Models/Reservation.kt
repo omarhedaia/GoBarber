@@ -1,10 +1,10 @@
 package com.hedaia.gobarber.Models
 
 data class Reservation(
-    val CustomerID:String?=null,
-    val BarberID:String?=null,
+    val customerID:String?=null,
+    val barberID:String?=null,
     val services:String?=null,
-    val Date:String?=null,
-    val TotalPrice:String?=null,
-    val TotalTime:String?=null,
+    val date:String?=null,
+    val totalPrice:String?=null,
+    val totalTime:String?=null,
     var status:String="Not Yet")

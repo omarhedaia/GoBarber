@@ -14,7 +14,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -200,9 +202,10 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
                 if (serviceProviderDto!=null)
                 {
                     barberInfoMarkerBinding.apply {
-                        val distanceString = "${serviceProviderDto.distance} km"
+//                        val distanceString = "${(serviceProviderDto.distance)}"
+                        val distanceFloatString = String.format("%.1f",serviceProviderDto.distance) + " km"
                         barberTitleTv.text = serviceProviderDto.name
-                        barberDistanceTv.text = distanceString
+                        barberDistanceTv.text = distanceFloatString
                         barberMintimeTv.text = serviceProviderDto.minimumWaitTime.toString()
                         barberMaxtimeTv.text = serviceProviderDto.maximumWaitTime.toString()
                         barberImageIv.setImageResource(R.drawable.afro)
@@ -247,38 +250,24 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
                 for (serviceProvider in serviceProviders) {
                     Log.d("markerLocation", "onViewCreated: ${serviceProvider.name}")
 
-
-
-
-//                    val serviceProviderMarkerBinding =
-//                        BarberInfoMarkerBinding.inflate(layoutInflater)
-//
-//                    serviceProviderMarkerBinding.apply {
-
-
-//                        val distanceString = "${serviceProvider.distance} km"
-//                        barberTitleTv.text = serviceProvider.name
-//                        barberDistanceTv.text = distanceString
-//                        barberMintimeTv.text = serviceProvider.minimumWaitTime.toString()
-//                        barberMaxtimeTv.text = serviceProvider.maximumWaitTime.toString()
-//                        barberImageIv.setImageResource(R.drawable.afro)
                         val latitude = serviceProvider.latitude
                         Log.d("markerLocation", "onMapReady: latitude = $latitude ")
                         val longitude = serviceProvider.longitude
                         Log.d("markerLocation", "onMapReady: longitude = $longitude ")
 
                         val location = LatLng(latitude!!.toDouble(), longitude!!.toDouble())
-//                        val barberIcon = bitmapToSmallMarker(serviceProviderMarkerBinding.root)
 
                     val serviceMarkerOptions = MarkerOptions()
                     serviceMarkerOptions.title(serviceProvider.name)
                     serviceMarkerOptions.position(location)
+                    val bitmap = resourceToBitmap(R.drawable.scissors_icon)
+                    serviceMarkerOptions.icon( BitmapDescriptorFactory.fromBitmap(bitmap))
 
 
                     currentGoogleMap.addMarker(
                         serviceMarkerOptions
                     )!!.tag = serviceProvider
-//                    }
+
 
 
                 }
@@ -309,6 +298,12 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
         val canvas = Canvas(bitmap)
         view.layout(0, 0, view.measuredWidth, view.measuredHeight)
         view.draw(canvas)
+        return bitmap
+    }
+
+    fun resourceToBitmap(resourceImage: Int): Bitmap {
+
+        val bitmap = AppCompatResources.getDrawable(requireContext(),resourceImage)!!.toBitmap(100,100,Bitmap.Config.ARGB_8888)
         return bitmap
     }
 

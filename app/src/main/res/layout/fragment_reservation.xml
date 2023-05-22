@@ -23,7 +23,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/barbersRV"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/servicesRV"
@@ -37,7 +37,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/servicesRV"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/detailsLL"
@@ -49,12 +49,12 @@
         <LinearLayout
             android:id="@+id/detailsLL"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/servicesRV"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:weightSum = "3"
+            app:layout_constraintBottom_toTopOf="@id/bookBtn"
+            android:weightSum = "2"
             >
 
             <LinearLayout
@@ -121,20 +121,22 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/bookBtn"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:background="@drawable/circular_button_background"
-                android:layout_marginTop = "5dp"
-                android:text="BOOK"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                android:layout_weight = "1"
-                />
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bookBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/circular_button_background"
+            android:layout_margin = "10dp"
+            android:text="BOOK"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:layout_weight = "1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
