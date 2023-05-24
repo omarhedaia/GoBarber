@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBlue"
+        android:padding="20dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/cancelBtn"
+            android:layout_width="34dp"
+            android:layout_height="35dp"
+            android:layout_gravity="end"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+            app:tint="@color/white" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:text="Date" />
+
+
+            <TextView
+                android:id="@+id/timeTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                   android:textColor="@color/white"
+                android:textSize="16sp"
+                android:text="Time" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/serviceProvider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:text="Service Provider" />
+
+        <TextView
+            android:id="@+id/barberName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_margin="10dp"
+            android:text="Barber Name" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="Services: " />
+
+            <TextView
+                android:id="@+id/servicesTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="Service, " />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:paddingEnd="22dp"
+                android:text="Price: " />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="total Price" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ReservationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/circular_button_background"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="Rebook"
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="normal"/>
+
+
+    </LinearLayout>
+</RelativeLayout>

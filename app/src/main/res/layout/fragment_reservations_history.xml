@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkBlue"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ReservationsHistoryFragment">
+
+
+    <ImageView
+        android:id="@+id/back_to_profile_IV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="16dp"
+        android:src = "@drawable/ic_baseline_arrow_back_24"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reservationHisotryRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/reservation_history_row"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        />
+</FrameLayout>

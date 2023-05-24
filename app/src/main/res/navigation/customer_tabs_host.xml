@@ -23,7 +23,14 @@
         android:id="@+id/customerProfileFragment"
         android:name="com.hedaia.gobarber.CustomerProfileFragment"
         android:label="fragment_customer_profile"
-        tools:layout="@layout/fragment_customer_profile" />
+        tools:layout="@layout/fragment_customer_profile" >
+        <action
+            android:id="@+id/action_customerProfileFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_customerProfileFragment_to_reservationsHistoryFragment"
+            app:destination="@id/reservationsHistoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reservationFragment"
         android:name="com.hedaia.gobarber.ReservationFragment"
@@ -33,5 +40,23 @@
             android:id="@+id/action_reservationFragment_to_barbersLocationFragment"
             app:destination="@id/barbersLocationFragment"
             app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.hedaia.gobarber.accountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_customerProfileFragment"
+            app:destination="@id/customerProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reservationsHistoryFragment"
+        android:name="com.hedaia.gobarber.ReservationsHistoryFragment"
+        android:label="fragment_reservations_history"
+        tools:layout="@layout/fragment_reservations_history" >
+        <action
+            android:id="@+id/action_reservationsHistoryFragment_to_customerProfileFragment"
+            app:destination="@id/customerProfileFragment" />
     </fragment>
 </navigation>
