@@ -1,6 +1,5 @@
 package com.hedaia.gobarber
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -21,21 +20,16 @@ class SingUpFragment : Fragment() {
 
 
     private lateinit var binding:FragmentSingUpBinding
-    lateinit var viewModel: CustomersViewModel
-    var users= arrayListOf<Customer>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private lateinit var viewModel: CustomersViewModel
+    private var users= arrayListOf<Customer>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding=FragmentSingUpBinding.inflate(layoutInflater)
-        viewModel= ViewModelProvider(this).get(CustomersViewModel::class.java)
+        viewModel= ViewModelProvider(this)[CustomersViewModel::class.java]
         viewModel.getUsers().observe(viewLifecycleOwner){
             users.clear()
             users.addAll(it)
@@ -51,26 +45,32 @@ class SingUpFragment : Fragment() {
                 val userPhone=userPhone.text
                 if (userEmail!!.isNotEmpty() && userPass!!.isNotEmpty() &&
                     userName!!.isNotEmpty() && userPhone!!.isNotEmpty()) {
-                   /* if(userEmail==userConfirmEmail){
-                        if(userPass==userConfirmPass){*/
-                            var newUser = Customer(
+                    if (userEmail.toString() == userConfirmEmail.toString()) {
+                        if (userPass.toString() == userConfirmPass.toString()) {
+                            val newUser = Customer(
                                 userEmail.toString(), userName.toString(),
-                                md5Hash(userPass.toString()), userPhone.toString())
+                                md5Hash(userPass.toString()), userPhone.toString()
+                            )
                             viewModel.saveUser(newUser)
-                            Toast.makeText(context, "Customer Added", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(requireContext(), "Customer Added", Toast.LENGTH_LONG).show()
                             Log.d("Data", "AddProcess: $newUser ")
                             findNavController().navigate(R.id.action_singUpFragment_to_signInFragment)
-                       /* }else{
-                            Toast.makeText(context, "Passwords must be match", Toast.LENGTH_LONG).show()
+                             }else{
+                            Toast.makeText(requireContext(), "Passwords must be match", Toast.LENGTH_LONG).show()
                         }
                     }else{
-                        Toast.makeText(context, "Emails must be match", Toast.LENGTH_LONG).show()
-                    }*/
+                        Toast.makeText(requireContext(), "Emails must be match", Toast.LENGTH_LONG).show()
+                    }
 
-                }else{
-                    Toast.makeText(context, "Enter all your information, Please!", Toast.LENGTH_LONG).show()
-                }
-            }
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Enter all your information, Please!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+
         }
 
 
@@ -79,8 +79,7 @@ class SingUpFragment : Fragment() {
     private fun md5Hash(str: String): String {
         val md = MessageDigest.getInstance("MD5")
         val bigInt = BigInteger(1, md.digest(str.toByteArray(Charsets.UTF_8)))
-        val UserPassword =String.format("%032x", bigInt)
-        return UserPassword
+        return String.format("%032x", bigInt)
     }
 
 

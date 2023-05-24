@@ -27,6 +27,9 @@ class CustomersViewModel(application: Application): AndroidViewModel(application
     fun getUsers(): LiveData<List<Customer>> {
         return repository.getUsers()
     }
+    fun updateUser(user: Customer,newString:String,child:String) {
+        return repository.updateUser(user,newString,child)
+    }
 
 
     fun getServiceProvider(): LiveData<List<ServiceProvider>> {
@@ -46,8 +49,8 @@ class CustomersViewModel(application: Application): AndroidViewModel(application
     fun saveReservation(reservation: Reservation) {
         return repository.saveReservation(reservation)
     }
-    fun getReservation(reservation:Reservation): LiveData<List<Reservation>> {
-        return repository.getReservation(reservation)
+    fun getReservations(customer: Customer): LiveData<List<Reservation>> {
+        return repository.getReservations(customer)
     }
     fun getAgenda(): LiveData<List<Agenda>> {
         return repository.getAgenda()

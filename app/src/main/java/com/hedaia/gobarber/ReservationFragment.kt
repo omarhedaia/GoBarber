@@ -81,11 +81,10 @@ class ReservationFragment : Fragment(),BarbersAdapter.onClick,ServicesAdapter.on
         binding.apply {
             bookBtn.setOnClickListener {
                 if(chosenBarber!=null&&servicesUserList.isNotEmpty()&&price!=0&&time!=0){
-                    newReservation= Reservation(currentCustomer!!.name,
-                        chosenBarber!!.name,
+                    newReservation= Reservation("",currentCustomer!!.name,
+                        chosenBarber!!.name, currentServiceProvider!!.name,
                         servicesUserListString.joinToString(","),
-                        LocalDateTime.now().toString(),
-                        price.toString(),time.toString(),)
+                        LocalDateTime.now().toString(), price.toString(),time.toString(),)
                     viewModel.saveReservation(newReservation!!)
                    findNavController().navigate(R.id.action_reservationFragment_to_barbersLocationFragment)
                 }else{

@@ -61,8 +61,8 @@ class SignInFragment : Fragment() {
                 val userPassword = userSigninSharedPref.getString("userPassword","")!!
                 for (user in users) {
                     println(" for (user in users), ${user.name} in $users")
-                    if (userEmail.toString() == user.email) {
-                        checkUserLogin(userPassword.toString(), user)
+                    if (userEmail.equals(user.email)) {
+                        checkUserLogin(userPassword, user)
                     }
                 }
 
@@ -87,14 +87,13 @@ class SignInFragment : Fragment() {
                 if(userEmail!!.isNotEmpty()&&userPassword!!.isNotEmpty()){
                     for (user in users) {
                         println(" for (user in users), ${user.name} in $users")
-                        if (userEmail.toString() == user.email) {
-                            checkUserLogin(userPassword.toString(), user)
-                            useremailTxt.text!!.clear()
-                            userpasswordTxt.text!!.clear()
+                        if (userEmail == user.email) {
+                            checkUserLogin(userPassword, user)
                         }
                     }
+
                 }else{
-                    Toast.makeText(context,"Please Enter your information", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),"Please Enter your information", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -117,7 +116,9 @@ class SignInFragment : Fragment() {
             startActivity(intent)
             requireActivity().finish()
         }else{
-            Toast.makeText(context,"Please make sure from your password", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),"Please make sure from your password", Toast.LENGTH_SHORT).show()
+            binding.useremailTxt.text!!.clear()
+            binding.userpasswordTxt.text!!.clear()
         }
     }
 

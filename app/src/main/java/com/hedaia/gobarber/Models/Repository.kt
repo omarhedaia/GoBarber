@@ -4,6 +4,8 @@ import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Task
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -18,8 +20,7 @@ class Repository {
     val barbersLiveData: MutableLiveData<List<Barbers>> = MutableLiveData()
     val CustomersLiveData: MutableLiveData<List<Customer>> = MutableLiveData()
     val servicesProvidersLiveData: MutableLiveData<List<ServiceProvider>> = MutableLiveData()
-    val servicesProvidersInfoLiveData: MutableLiveData<List<ServiceProviderLocation>> =
-        MutableLiveData()
+    val servicesProvidersInfoLiveData: MutableLiveData<List<ServiceProviderLocation>> = MutableLiveData()
     val servicesLiveData: MutableLiveData<List<Services>> = MutableLiveData()
     val reservationLiveData: MutableLiveData<List<Reservation>> = MutableLiveData()
     val AgendaLiveData: MutableLiveData<List<Agenda>> = MutableLiveData()
@@ -56,6 +57,40 @@ class Repository {
 
         }
         return CustomersLiveData
+    }
+
+    /*fun getUser(customer: Customer): Task<DataSnapshot> {
+        return  myRef.child("Customers").child(customer.name.toString()).get()
+    }*/
+
+    fun updateUser(user: Customer,newString:String,child:String) {
+        when(child){
+            "password" -> {
+                myRef.child("Customers").child(user.name.toString()).child("password")
+                    .setValue(newString)
+                Log.d("Saved??", "UpdatedPassword!")
+            }
+            "username" ->{
+                myRef.child("Customers").child(user.name.toString()).child("name")
+                    .setValue(newString)
+                Log.d("Saved??", "UpdatedName!")
+            }
+            "email" ->{
+                myRef.child("Customers").child(user.name.toString()).child("email")
+                    .setValue(newString)
+                Log.d("Saved??", "UpdatedEmail!")
+            }
+            "phone" ->{
+                myRef.child("Customers").child(user.name.toString()).child("phone")
+                    .setValue(newString)
+                Log.d("Saved??", "UpdatedPhone!")
+            }
+        }
+
+
+
+        getUsers()
+
     }
 
     fun getServiceProvider(): LiveData<List<ServiceProvider>> {
@@ -102,24 +137,20 @@ class Repository {
                         for (barber in barbers) {
                             Log.d("reservation", "barber: ${barber.name} ")
                             var totalWaitTime = 0
-                            myRef.child("Reservation").child(barber.name!!).get()
-                                .addOnSuccessListener { reservationDatasnapshot ->
 
-                                    Log.d("reservation", "res: ${reservationDatasnapshot.value} ")
-
-                                    for (snapshot in reservationDatasnapshot.children) {
-                                        Log.d("reservation", "res: ${snapshot.value} ")
-                                        val reservation = snapshot.getValue(Reservation::class.java)!!
-                                        Log.d("reservation", "res: ${reservation.customerID} ")
-
-                                        if (reservation.status == "Not Yet") {
-                                            Log.d("reservation", "res: ${reservation.totalTime} ")
-                                            totalWaitTime += (reservation.totalTime?.toInt() ?: 0)
-                                            Log.d("reservation", "total time: ${totalWaitTime} ")
-                                            Log.d("reservation", "min time: ${minWaitTime} ")
-                                            Log.d("reservation", "max time: ${maxWaitTime} ")
-                                        }
+                            myRef.child("Reservations").get().addOnSuccessListener {
+                                val value = it.children.map { dataSnapshot -> dataSnapshot.getValue(Reservation::class.java)!! }
+                                Log.d("Reservation", "getReservations: $value")
+                                for(reservationIn in value ) {
+                                    if ((reservationIn.barberID == barber.name) && (reservationIn.status == "Not Yet")) {
+                                        Log.d("reservation", "res: ${reservationIn.totalTime} ")
+                                        totalWaitTime += (reservationIn.totalTime?.toInt() ?: 0)
+                                        Log.d("reservation", "total time: ${totalWaitTime} ")
+                                        Log.d("reservation", "min time: ${minWaitTime} ")
+                                        Log.d("reservation", "max time: ${maxWaitTime} ")
                                     }
+                                }
+
 
 
                                     minWaitTime = min(totalWaitTime, minWaitTime)
@@ -190,22 +221,32 @@ class Repository {
     }
 
     fun saveReservation(newReservation: Reservation) {
-        myRef.child("Reservation").child(newReservation.barberID.toString()).push()
-            .setValue(newReservation)
+        val pushed=myRef.child("Reservations").push()
+        pushed.setValue(Reservation(pushed.key,newReservation.customerID,newReservation.barberID,
+                newReservation.serviceProviderId,newReservation.services,newReservation.date,newReservation.totalPrice,newReservation.totalTime,
+            newReservation.status))
         Log.d("Saved??", "SavedReservation!")
-        getReservation(newReservation)
     }
 
     // Read from the database
-    fun getReservation(newReservation: Reservation): LiveData<List<Reservation>> {
-        myRef.child("Reservation").child(newReservation.barberID.toString()).get()
-            .addOnSuccessListener {
-                val value =
-                    it.children.map { dataSnapshot -> dataSnapshot.getValue(Reservation::class.java)!! }
-                reservationLiveData.postValue(value)
+    fun getReservations(customer: Customer): LiveData<List<Reservation>> {
+        var reservationUser= arrayListOf<Reservation>()
+        myRef.child("Reservations").get().addOnSuccessListener {
+                val value = it.children.map { dataSnapshot -> dataSnapshot.getValue(Reservation::class.java)!! }
+            Log.d("Reservation", "getReservations: $value")
+
+            for(customerin in value ){
+                if((customerin.customerID==customer.name)&&(customerin.status=="Done")){
+                    reservationUser.add(customerin)
+                }
             }
+
+            reservationLiveData.postValue(reservationUser)
+
+        }
         return reservationLiveData
     }
+
 
     // Read from the database
     fun getAgenda(): LiveData<List<Agenda>> {
