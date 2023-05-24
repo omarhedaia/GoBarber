@@ -1,14 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkBlue"
     tools:context=".CustomerProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/userImage"
+            android:layout_width="194dp"
+            android:layout_height="181dp"
+            android:layout_margin="25dp"
+            android:src="@drawable/user_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:padding="5dp"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/buttonsLL"
+            app:layout_constraintTop_toBottomOf="@+id/userImage" />
+
+        <LinearLayout
+            android:id="@+id/buttonsLL"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/username">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/accountBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/search_view_background"
+                android:drawableStart="@drawable/baseline_account_circle_24"
+                android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
+                android:text="account" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/reservationBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/search_view_background"
+                android:drawableStart="@drawable/baseline_calendar_today_24"
+                android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
+                android:text="Reservations" />
+
+                 <!--app:icon="@drawable/baseline_arrow_forward_ios_24"
+                app:iconGravity="end"-->
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/privacyBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/search_view_background"
+                android:drawableStart="@drawable/baseline_privacy_tip_24"
+                android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
+                android:text="Legal and privacy" />
+
+               <!--  app:icon="@drawable/baseline_arrow_forward_ios_24"
+                app:iconGravity="end"-->
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/helpBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/search_view_background"
+                android:drawableStart="@drawable/baseline_help_24"
+                android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
+                android:text="Help" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/logoutBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/search_view_background"
+                android:drawableStart="@drawable/baseline_logout_24"
+                android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
+                android:padding="10dp"
+                android:text="Logout" />
+
+                <!-- app:icon="@drawable/baseline_arrow_forward_ios_24"
+                app:iconGravity="end" -->
+
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

@@ -59,7 +59,7 @@
             android:layout_margin="16dp"
             android:textSize="18sp"
             android:background="@drawable/buttons_shape"
-            android:text="SignIn"
+            android:text="Sign In"
             android:layout_weight="1"
             />
 
@@ -80,7 +80,7 @@
             android:layout_margin="16dp"
             android:background="@drawable/buttons_shape"
             android:textSize="18sp"
-            android:text="SignUp"
+            android:text="Sign Up"
             android:layout_weight="1"
             />
 
