@@ -247,6 +247,27 @@ class Repository {
         return reservationLiveData
     }
 
+    fun getReservationsHistory(customer: Customer):LiveData<List<Reservation>>{
+        val reservationHistory = mutableListOf<Reservation>()
+        val customerReservations = myRef.child("Reservations").orderByChild("customerID").equalTo(customer.name).get()
+        customerReservations.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val value =
+                    it.result.children.map { dataSnapshot -> dataSnapshot.getValue(Reservation::class.java)!! }
+                Log.d("reservationHistory", "getReservationsHistory: ${value}")
+                reservationHistory.addAll(value)
+                reservationLiveData.postValue(reservationHistory)
+            }
+            else{
+                Log.d("reservationHistory", "getReservationsHistory: ${it.exception}")
+
+            }
+        }
+        return reservationLiveData
+
+
+    }
+
 
     // Read from the database
     fun getAgenda(): LiveData<List<Agenda>> {

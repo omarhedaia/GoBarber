@@ -20,9 +20,10 @@ class ReservationsAdapter (var clickListener: onClickListener): RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: itemViewHolder, position: Int) {
-        var reservation=reservationsList[position]
+        val reservation=reservationsList[position]
         holder.binding.apply {
 
+            serviceProviderTV.text = reservation.serviceProviderId
 
             date.text=reservation.date!!
             barberId.text=reservation.barberID

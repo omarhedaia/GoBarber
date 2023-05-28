@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.hedaia.gobarber.Models.Customer
 import com.hedaia.gobarber.ViewModels.CustomersViewModel
 import com.hedaia.gobarber.databinding.FragmentSingUpBinding
@@ -56,18 +57,23 @@ class SingUpFragment : Fragment() {
                             Log.d("Data", "AddProcess: $newUser ")
                             findNavController().navigate(R.id.action_singUpFragment_to_signInFragment)
                              }else{
-                            Toast.makeText(requireContext(), "Passwords must be match", Toast.LENGTH_LONG).show()
+                                 Snackbar.make(requireView(),"Passwords must match",Snackbar.LENGTH_LONG).show()
+//                            Toast.makeText(requireContext(), "Passwords must be match", Toast.LENGTH_LONG).show()
                         }
                     }else{
-                        Toast.makeText(requireContext(), "Emails must be match", Toast.LENGTH_LONG).show()
+                        Snackbar.make(requireView(),"Emails must match",Snackbar.LENGTH_LONG).show()
+//                        Toast.makeText(requireContext(), "Emails must be match", Toast.LENGTH_LONG).show()
                     }
 
                         } else {
-                            Toast.makeText(
-                                context,
-                                "Enter all your information, Please!",
-                                Toast.LENGTH_LONG
-                            ).show()
+
+                            Snackbar.make(requireView(),"Please, Enter all of your information.",Snackbar.LENGTH_LONG).show()
+
+//                            Toast.makeText(
+//                                context,
+//                                "Enter all your information, Please!",
+//                                Toast.LENGTH_LONG
+//                            ).show()
                         }
                     }
 

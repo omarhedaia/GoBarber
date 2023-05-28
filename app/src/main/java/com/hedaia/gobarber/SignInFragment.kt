@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.hedaia.gobarber.Models.Customer
 import com.hedaia.gobarber.ViewModels.CustomersViewModel
 import com.hedaia.gobarber.databinding.FragmentSignInBinding
@@ -93,7 +94,8 @@ class SignInFragment : Fragment() {
                     }
 
                 }else{
-                    Toast.makeText(requireContext(),"Please Enter your information", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(requireView(),"Please enter your email and password!",Snackbar.LENGTH_LONG).show()
+//                    Toast.makeText(requireContext(),"Please Enter your information", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -116,7 +118,9 @@ class SignInFragment : Fragment() {
             startActivity(intent)
             requireActivity().finish()
         }else{
-            Toast.makeText(requireContext(),"Please make sure from your password", Toast.LENGTH_SHORT).show()
+
+            Snackbar.make(requireView(),"Please make sure of your password",Snackbar.LENGTH_LONG).show()
+//            Toast.makeText(requireContext(),"Please make sure from your password", Toast.LENGTH_SHORT).show()
             binding.useremailTxt.text!!.clear()
             binding.userpasswordTxt.text!!.clear()
         }

@@ -60,12 +60,12 @@
                 android:id="@+id/reservationBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/search_view_background"
                 android:drawableStart="@drawable/baseline_calendar_today_24"
                 android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
-                android:text="Reservations" />
+                android:padding="10dp"
+                android:text="Reservations History" />
 
                  <!--app:icon="@drawable/baseline_arrow_forward_ios_24"
                 app:iconGravity="end"-->

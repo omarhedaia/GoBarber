@@ -4,6 +4,7 @@ import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.*
 import android.location.*
 import android.os.Build
@@ -307,7 +308,7 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
         val bitmap = AppCompatResources.getDrawable(requireContext(),resourceImage)!!.toBitmap(100,100,Bitmap.Config.ARGB_8888)
         val paint = Paint()
         val filter: ColorFilter = PorterDuffColorFilter(
-            resources.getColor(R.color.red),
+            resources.getColor(R.color.red,requireContext().theme),
             PorterDuff.Mode.SRC_IN
         )
         paint.colorFilter = filter

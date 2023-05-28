@@ -40,7 +40,7 @@ class ReservationsHistoryFragment : Fragment(),ReservationsAdapter.onClickListen
         // Inflate the layout for this fragment
         binding=FragmentReservationsHistoryBinding.inflate(layoutInflater)
 
-        viewModel.getReservations(currentCustomer!!).observe(viewLifecycleOwner){
+        viewModel.getReservationsHistory(currentCustomer!!).observe(viewLifecycleOwner){
             reservations.clear()
             reservations.addAll(it)
             Log.d("TAG", "onCreate: $reservations ")

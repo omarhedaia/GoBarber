@@ -55,4 +55,9 @@ class CustomersViewModel(application: Application): AndroidViewModel(application
     fun getAgenda(): LiveData<List<Agenda>> {
         return repository.getAgenda()
     }
+
+    fun getReservationsHistory(customer: Customer):LiveData<List<Reservation>>{
+
+        return repository.getReservationsHistory(customer)
+    }
 }
