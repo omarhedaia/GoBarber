@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CurrentReserrvationFragment"
+    android:background="@color/darkBlue">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width = "match_parent"
+        android:layout_height = "match_parent"
+        >
+
+        <TextView
+            android:id = "@+id/reservation_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin = "15dp"
+            android:text = "Reservation Statue"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity = "center"
+            android:textColor = "@color/white"
+            android:textSize = "25sp"
+            android:textStyle = "bold"
+            />
+
+        <TextView
+            android:id = "@+id/show_up_time_left_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin = "15dp"
+            android:text = "Time Left : "
+            app:layout_constraintTop_toBottomOf="@id/reservation_title_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/show_up_time_left_counter_tv"
+            android:textColor = "@color/white"
+            android:textSize = "25sp"
+            android:textStyle = "bold"
+            />
+
+        <TextView
+            android:id = "@+id/show_up_time_left_counter_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin = "15dp"
+            android:text = "00:00"
+            app:layout_constraintTop_toBottomOf="@id/reservation_title_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor = "@color/white"
+            android:textSize = "25sp"
+            android:textStyle = "bold"
+            />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius = "5dp"
+            android:padding="10dp"
+            android:layout_margin="15dp"
+            android:backgroundTint = "@color/lightBlue"
+            app:layout_constraintTop_toBottomOf="@+id/show_up_time_left_tv"
+            >
+
+            <LinearLayout
+                android:layout_width = "match_parent"
+                android:layout_height = "match_parent"
+                android:orientation = "vertical"
+                >
+
+                <TextView
+                    android:id = "@+id/service_providerTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin = "15dp"
+                    android:text="Service Provider"
+                    android:textColor = "@color/yellow"
+                    android:textSize = "20sp"
+                    android:textStyle = "bold"
+                    />
+
+                <TextView
+                    android:id = "@+id/barber_name_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin = "15dp"
+                    android:text="Barber Name"
+                    android:textColor = "@color/white"
+                    android:textSize = "15sp"
+
+                    />
+
+                <TextView
+                    android:id = "@+id/reservingTime_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin = "15dp"
+                    android:text="Reserving Time"
+                    android:textColor = "@color/white"
+                    android:textSize = "15sp"
+
+                    />
+
+                <TextView
+                    android:id = "@+id/showUp_time_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin = "15dp"
+                    android:text="Show up time"
+                    android:textColor = "@color/white"
+                    android:textSize = "15sp"
+
+                    />
+                <TextView
+                    android:id = "@+id/totalprice_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin = "15dp"
+                    android:text="Total price"
+                    android:textColor = "@color/white"
+                    android:textSize = "15sp"
+
+                    />
+
+                <TextView
+                    android:id = "@+id/totaltime_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin = "15dp"
+                    android:text="Barber Name"
+                    android:textColor = "@color/white"
+                    android:textSize = "15sp"
+
+                    />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</FrameLayout>

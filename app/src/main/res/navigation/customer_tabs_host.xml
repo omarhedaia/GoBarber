@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_barbersLocationFragment_to_reservationFragment"
             app:destination="@id/reservationFragment" />
+        <action
+            android:id="@+id/action_barbersLocationFragment_to_currentReserrvationFragment"
+            app:destination="@id/currentReserrvationFragment" />
     </fragment>
     <fragment
         android:id="@+id/customerProfileFragment"
@@ -58,5 +61,14 @@
         <action
             android:id="@+id/action_reservationsHistoryFragment_to_customerProfileFragment"
             app:destination="@id/customerProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/currentReserrvationFragment"
+        android:name="com.hedaia.gobarber.CurrentReserrvationFragment"
+        android:label="fragment_current_reserrvation"
+        tools:layout="@layout/fragment_current_reserrvation" >
+        <action
+            android:id="@+id/action_currentReserrvationFragment_to_barbersLocationFragment"
+            app:destination="@id/barbersLocationFragment" />
     </fragment>
 </navigation>
