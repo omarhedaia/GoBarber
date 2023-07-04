@@ -80,17 +80,31 @@ class ReservationFragment : Fragment(),BarbersAdapter.onClick,ServicesAdapter.on
 
         binding.apply {
             bookBtn.setOnClickListener {
-                if(chosenBarber!=null&&servicesUserList.isNotEmpty()&&price!=0&&time!=0){
-                    newReservation= Reservation("",currentCustomer!!.name,
-                        chosenBarber!!.name, currentServiceProvider!!.name,
-                        servicesUserListString.joinToString(","),
-                        LocalDateTime.now().toString(), price.toString(),time.toString(),)
-                    viewModel.saveReservation(newReservation!!)
-                   findNavController().navigate(R.id.action_reservationFragment_to_barbersLocationFragment)
-                }else{
-                    Toast.makeText(context,"Please Complete your Reservation!",
-                        Toast.LENGTH_SHORT).show()
+
+                if (chosenBarber!=null)
+                {
+                    chosenBarber!!.name?.let { barberName ->
+                        viewModel.getBarberReservationsTotalTime(barberName).observe(viewLifecycleOwner){
+                            val reservationTime =  LocalDateTime.now()
+                            val showUptime = reservationTime.plusMinutes(it.toLong())
+                            if(servicesUserList.isNotEmpty()&&price!=0&&time!=0){
+                                newReservation= Reservation("",currentCustomer!!.name,
+                                    chosenBarber!!.name, currentServiceProvider!!.name,
+                                    servicesUserListString.joinToString(","),
+                                    reservationTime.toString(),
+                                    showUptime.toString()
+                                    ,price.toString(),time.toString(),)
+                                viewModel.saveReservation(newReservation!!)
+                                findNavController().navigate(R.id.action_reservationFragment_to_barbersLocationFragment)
+                            }else{
+                                Toast.makeText(context,"Please Complete your Reservation!",
+                                    Toast.LENGTH_SHORT).show()
+                            }
+
+                        }
+                    }
                 }
+
             }
 
             backToSearchIV.setOnClickListener{

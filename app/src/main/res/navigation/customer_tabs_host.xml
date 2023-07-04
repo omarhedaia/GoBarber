@@ -17,10 +17,14 @@
         tools:layout="@layout/fragment_barbers_location" >
         <action
             android:id="@+id/action_barbersLocationFragment_to_reservationFragment"
-            app:destination="@id/reservationFragment" />
+            app:destination="@id/reservationFragment"
+            app:popUpTo="@id/barbersLocationFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_barbersLocationFragment_to_currentReserrvationFragment"
-            app:destination="@id/currentReserrvationFragment" />
+            app:destination="@id/currentReserrvationFragment"
+            app:popUpTo="@id/barbersLocationFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/customerProfileFragment"
@@ -29,10 +33,14 @@
         tools:layout="@layout/fragment_customer_profile" >
         <action
             android:id="@+id/action_customerProfileFragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
+            app:destination="@id/accountFragment"
+            app:popUpTo="@id/customerProfileFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_customerProfileFragment_to_reservationsHistoryFragment"
-            app:destination="@id/reservationsHistoryFragment" />
+            app:destination="@id/reservationsHistoryFragment"
+            app:popUpTo="@id/customerProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/reservationFragment"
@@ -70,5 +78,8 @@
         <action
             android:id="@+id/action_currentReserrvationFragment_to_barbersLocationFragment"
             app:destination="@id/barbersLocationFragment" />
+        <argument
+            android:name="reservation"
+            app:argType="com.hedaia.gobarber.Models.Reservation" />
     </fragment>
 </navigation>

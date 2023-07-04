@@ -60,4 +60,13 @@ class CustomersViewModel(application: Application): AndroidViewModel(application
 
         return repository.getReservationsHistory(customer)
     }
+
+    fun getCurrentReservationDetails(customer: Customer):LiveData<Reservation?>{
+
+        return repository.getCurrentReservation(customer)
+
+    }
+    fun getBarberReservationsTotalTime(barberName:String):LiveData<String>{
+        return repository.getBarberTotalReservationTime(barberName)
+    }
 }

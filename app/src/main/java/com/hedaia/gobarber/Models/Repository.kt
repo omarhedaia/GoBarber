@@ -29,7 +29,8 @@ class Repository {
     val servicesLiveData: MutableLiveData<List<Services>> = MutableLiveData()
     val reservationLiveData: MutableLiveData<List<Reservation>> = MutableLiveData()
     val AgendaLiveData: MutableLiveData<List<Agenda>> = MutableLiveData()
-    val reservationDetailsLiveData:MutableLiveData<ReservationDetails> = MutableLiveData()
+    val currentReservationLiveData: MutableLiveData<Reservation> = MutableLiveData()
+    val barberReservationsTotalTime: MutableLiveData<String> = MutableLiveData()
 
 
     init {
@@ -213,6 +214,93 @@ class Repository {
         return servicesProvidersInfoLiveData
     }
 
+//    fun getNearbyServiceProviderV3(userLocation: Location): LiveData<List<ServiceProviderLocation>> {
+//
+//        myRef.child("ServiceProvider").get().addOnSuccessListener {
+//
+//            val serviceProviders =
+//                it.children.map { dataSnapshot -> dataSnapshot.getValue(ServiceProvider::class.java)!! }
+//
+//            val nearbyServiceProviders = serviceProviders.filter { serviceProvider ->
+//                val lat = serviceProvider.latitude
+//                val long = serviceProvider.longitude
+//                val serviceProviderLocation = Location(serviceProvider.name)
+//                serviceProviderLocation.latitude = lat!!.toDouble()
+//                serviceProviderLocation.longitude = long!!.toDouble()
+//                userLocation.distanceTo(serviceProviderLocation) < 100000
+//            }
+//                //TODO: return only the reservations for the returned service providers
+//                myRef.child("Reservations").get().addOnSuccessListener {
+//                    val value =
+//                        it.children.map { dataSnapshot -> dataSnapshot.getValue(Reservation::class.java)!! }
+//                    Log.d("Reservation", "getReservations: $value")
+//
+//                    val serviceProviderNamesMap=HashMap<String?,Boolean>()
+//                    val barberMinHashMap = HashMap<String,Int>()
+//                    val barberMaxHashMap = HashMap<String,Int>()
+//                    val barberTotalTimeHashMap = HashMap<String,Int>()
+//
+//                    val reservationOfTheSP = value.filter { reservation ->
+//
+//                        reservation.status == "Not Yet"
+//
+//                    }
+//
+//
+//                    for (serviceProvider in nearbyServiceProviders)
+//                    {
+//                        serviceProviderNamesMap[serviceProvider.name] = true
+//                    }
+//                    for (reservationIn in reservationOfTheSP) {
+//
+//                        if (serviceProviderNamesMap.containsKey(reservationIn.serviceProviderId))
+//                        {
+//                            //TODO: compute the total time for each barber in the reservation table
+//                            var totalTime = barberTotalTimeHashMap.getOrDefault(reservationIn.barberID,0)
+//
+//                            totalTime += reservationIn.totalTime!!.toInt()
+//                            barberTotalTimeHashMap[reservationIn.barberID!!] = totalTime
+//
+//
+//
+//                        }
+//
+//                    }
+//                    for ((barberName,totalTime) in barberTotalTimeHashMap)
+//                    {
+//
+//
+//                    }
+//
+//                }
+//
+//
+//        }
+//    }
+
+    fun getBarberTotalReservationTime(barberName: String): LiveData<String> {
+        var totalWaitTime = 0
+        myRef.child("Reservations").get().addOnSuccessListener {
+
+            val value =
+                it.children.map { dataSnapshot -> dataSnapshot.getValue(Reservation::class.java)!! }
+            Log.d("Reservation", "getReservations: $value")
+            for (reservationIn in value) {
+                if ((reservationIn.barberID == barberName) && (reservationIn.status == "Not Yet")) {
+                    Log.d("reservation", "res: ${reservationIn.totalTime} ")
+                    totalWaitTime += (reservationIn.totalTime?.toInt() ?: 0)
+
+                }
+            }
+            barberReservationsTotalTime.postValue(totalWaitTime.toString())
+
+
+        }
+        return barberReservationsTotalTime
+
+
+    }
+
 
     fun getNearbyServiceProvider2(userLocation: Location): LiveData<List<ServiceProviderLocation>> {
         // Read from the database
@@ -340,52 +428,24 @@ class Repository {
     }
 
 
-    fun getCurrentReservation(customer: Customer):LiveData<ReservationDetails> {
-        myRef.child("Reservations").orderByChild("date").get().addOnSuccessListener {
+    fun getCurrentReservation(customer: Customer): LiveData<Reservation?> {
+        myRef.child("Reservations").get().addOnSuccessListener {
 
-            val openTime = 8.0
-            val closeTime = 11.0
-            var reservationTimeLeft = openTime
-            var reservationTime = 0.0
 
             val reservations =
                 it.children.map { snap ->
                     snap.getValue(Reservation::class.java)
                 }
 
-            for (reservation in reservations) {
-                if (reservation!!.customerID != customer.name) {
-//                    totalWorkingHours = totalWorkingHours - reservation.totalTime!!.toInt()
-                    reservationTimeLeft =
-                        reservationTimeLeft + (reservation.totalTime!!.toInt() / 60) - 0.10
-                } else {
-                    reservationTime = reservationTimeLeft - 0.10
-                    val reservationDetails = ReservationDetails(
-                        reservation.reservationID,
-                        reservation.customerID,
-                        reservation.barberID,
-                        reservation.serviceProviderId,
-                        reservation.services,
-                        reservation.date,
-                        reservation.totalPrice,
-                        reservation.totalTime,
-                        reservation.status,
-                        reservationTime
-                    )
-
-                    reservationDetailsLiveData.postValue(reservationDetails)
-                    break
-
-
+            for (customerin in reservations) {
+                if ((customerin!!.customerID == customer.name) && (customerin.status == "Not Yet")) {
+                    currentReservationLiveData.postValue(customerin)
                 }
-
-
             }
-
-
         }
 
-        return reservationDetailsLiveData
+
+        return currentReservationLiveData
 
     }
 
