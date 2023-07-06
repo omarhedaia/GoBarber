@@ -80,6 +80,7 @@ class ReservationFragment : Fragment(),BarbersAdapter.onClick,ServicesAdapter.on
 
         binding.apply {
             bookBtn.setOnClickListener {
+
                 if(chosenBarber!=null&&servicesUserList.isNotEmpty()&&price!=0&&time!=0){
                     newReservation= Reservation("",currentCustomer!!.id,
                         chosenBarber!!, currentServiceProvider!!.name,
@@ -90,7 +91,9 @@ class ReservationFragment : Fragment(),BarbersAdapter.onClick,ServicesAdapter.on
                 }else{
                     Toast.makeText(context,"Please Complete your Reservation!",
                         Toast.LENGTH_SHORT).show()
+
                 }
+
             }
 
             backToSearchIV.setOnClickListener{

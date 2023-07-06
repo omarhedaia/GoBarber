@@ -86,6 +86,17 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
         viewModel = ViewModelProvider(this).get(CustomersViewModel::class.java)
         servicesProvidersAdapter = ServicesProvidersAdapter(this)
 
+        viewModel.getCurrentReservationDetails(SignInFragment.currentCustomer!!).observe(viewLifecycleOwner){
+            reservation ->
+            if (reservation!=null)
+            {
+                val bundle = Bundle()
+                bundle.putParcelable("customer_reservation",reservation)
+                findNavController().navigate(R.id.action_barbersLocationFragment_to_currentReserrvationFragment,bundle)
+            }
+
+        }
+
         supportMapFragment =
             this.childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
@@ -143,13 +154,7 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
                 ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             Log.d(TAG, "getCurrentLocation: not granted")
             return
         } else {
@@ -380,5 +385,8 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
 
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        fusedLocationProviderClient.removeLocationUpdates(this)
+    }
 }
