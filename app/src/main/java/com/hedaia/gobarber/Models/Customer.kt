@@ -1,8 +1,9 @@
 package com.hedaia.gobarber.Models
 
 data class Customer(
-    val email:String?=null,
-    val name:String?=null,
-    val password:String?=null,
-    val phone:String?=null
+    var email:String?=null,
+    val id:String?=null,
+    var name:String?=null,
+    var password:String?=null,
+    var phone:String?=null
 )

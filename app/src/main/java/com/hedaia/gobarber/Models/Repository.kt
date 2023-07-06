@@ -48,8 +48,10 @@ class Repository {
         return barbersLiveData
     }
 
+    //Updated to ID
     fun saveUser(user: Customer) {
-        myRef.child("Customers").child(user.name.toString()).setValue(user)
+        val pushed=myRef.child("Customers").push()
+            pushed.setValue(Customer(user.email,pushed.key,user.name,user.password,user.phone))
         Log.d("Saved??", "SavedUser!")
         getUsers()
 
@@ -70,32 +72,9 @@ class Repository {
         return  myRef.child("Customers").child(customer.name.toString()).get()
     }*/
 
-    fun updateUser(user: Customer, newString: String, child: String) {
-        when (child) {
-            "password" -> {
-                myRef.child("Customers").child(user.name.toString()).child("password")
-                    .setValue(newString)
-                Log.d("Saved??", "UpdatedPassword!")
-            }
-            "username" -> {
-                myRef.child("Customers").child(user.name.toString()).child("name")
-                    .setValue(newString)
-                Log.d("Saved??", "UpdatedName!")
-            }
-            "email" -> {
-                myRef.child("Customers").child(user.name.toString()).child("email")
-                    .setValue(newString)
-                Log.d("Saved??", "UpdatedEmail!")
-            }
-            "phone" -> {
-                myRef.child("Customers").child(user.name.toString()).child("phone")
-                    .setValue(newString)
-                Log.d("Saved??", "UpdatedPhone!")
-            }
-        }
-
-
-
+    fun updateUser(user: Customer) {
+                myRef.child("Customers").child(user.id.toString())
+                    .setValue(user)
         getUsers()
 
     }
@@ -150,7 +129,7 @@ class Repository {
                                 it.children.map { dataSnapshot -> dataSnapshot.getValue(Reservation::class.java)!! }
                             Log.d("Reservation", "getReservations: $value")
                             for (reservationIn in value) {
-                                if ((reservationIn.barberID == barber.name) && (reservationIn.status == "Not Yet")) {
+                                if ((reservationIn.barberID== barber) && (reservationIn.status == "Not Yet")) {
                                     Log.d("reservation", "res: ${reservationIn.totalTime} ")
                                     totalWaitTime += (reservationIn.totalTime?.toInt() ?: 0)
                                     Log.d("reservation", "total time: ${totalWaitTime} ")
@@ -186,7 +165,6 @@ class Repository {
                             if (reservationTask.isSuccessful) {
 
                                 servicesProvidersInfoLiveData.postValue(providerInfoList)
-
                             }
 
 
@@ -367,7 +345,7 @@ class Repository {
                                     }
                                     Log.d("Reservation", "getReservations: $value")
                                     for (reservationIn in value) {
-                                        if ((reservationIn.barberID == barber.name) && (reservationIn.status == "Not Yet")) {
+                                        if ((reservationIn.barberID!!.id == barber.id) && (reservationIn.status == "Not Yet")) {
                                             Log.d("reservation", "res: ${reservationIn.totalTime} ")
                                             totalWaitTime += (reservationIn.totalTime?.toInt() ?: 0)
                                             Log.d("reservation", "total time: ${totalWaitTime} ")
@@ -440,6 +418,7 @@ class Repository {
             for (customerin in reservations) {
                 if ((customerin!!.customerID == customer.name) && (customerin.status == "Not Yet")) {
                     currentReservationLiveData.postValue(customerin)
+
                 }
             }
         }
@@ -486,7 +465,7 @@ class Repository {
             Log.d("Reservation", "getReservations: $value")
 
             for (customerin in value) {
-                if ((customerin.customerID == customer.name) && (customerin.status == "Done")) {
+                if ((customerin.customerID == customer.id) && (customerin.status == "Done")) {
                     reservationUser.add(customerin)
                 }
             }
@@ -500,7 +479,7 @@ class Repository {
     fun getReservationsHistory(customer: Customer): LiveData<List<Reservation>> {
         val reservationHistory = mutableListOf<Reservation>()
         val customerReservations =
-            myRef.child("Reservations").orderByChild("customerID").equalTo(customer.name).get()
+            myRef.child("Reservations").orderByChild("customerID").equalTo(customer.id).get()
         customerReservations.addOnCompleteListener {
             if (it.isSuccessful) {
                 val value =

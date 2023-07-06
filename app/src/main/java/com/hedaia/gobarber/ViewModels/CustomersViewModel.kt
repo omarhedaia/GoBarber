@@ -27,8 +27,8 @@ class CustomersViewModel(application: Application): AndroidViewModel(application
     fun getUsers(): LiveData<List<Customer>> {
         return repository.getUsers()
     }
-    fun updateUser(user: Customer,newString:String,child:String) {
-        return repository.updateUser(user,newString,child)
+    fun updateUser(user: Customer) {
+        return repository.updateUser(user)
     }
 
 

@@ -11,6 +11,7 @@ import com.hedaia.gobarber.accountFragment
 import com.hedaia.gobarber.databinding.DetailsDialogBinding
 import com.hedaia.gobarber.databinding.EditDialogBinding
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class DetailsDialog(context: Context, val reservation: Reservation, val required: ReservationsHistoryFragment) :
     Dialog(context) {
@@ -26,9 +27,17 @@ class DetailsDialog(context: Context, val reservation: Reservation, val required
 
         viewModel = ViewModelProvider(required).get(CustomersViewModel::class.java)
         binding.apply {
-            timeTxt.text= reservation.date
+
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+            val dateTime = LocalDateTime.parse(reservation.date, formatter)
+            val date = dateTime.toLocalDate()
+            val time = dateTime.toLocalTime()
+
+            timeEtTxt.text= time.toString()
+            dateEtTxt.text=date.toString()
+
             serviceProvider.text=reservation.serviceProviderId
-            barberName.text=reservation.barberID
+            barberName.text=reservation.barberID!!.name
             price.text=reservation.totalPrice
             servicesTxt.text=reservation.services
 

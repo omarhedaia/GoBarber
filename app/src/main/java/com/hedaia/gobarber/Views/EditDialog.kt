@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.hedaia.gobarber.Models.Customer
 import com.hedaia.gobarber.SignInFragment.userData.currentCustomer
@@ -32,23 +33,46 @@ class EditDialog(context: Context, val edit: String, val required: accountFragme
         binding.apply {
 
             val newemailTxt = useremail.text
+            val newuserTxt = newusername.text
             val confirmemailTxt = confirmEmail.text
             val currentpassswordTxt = currentPassword.text
             val newpassswordTxt = newPassword.text
             val confirmpassswordTxt = confirmPassword.text
 
                 when (edit) {
+
+                    "name" ->{
+                        nameLL.visibility=View.VISIBLE
+                        passwordUpdateBtn.setOnClickListener {
+                            if(newuserTxt.toString().isNotEmpty()){
+                                errorMsg.text=" "
+                                var updateCustomer= Customer(currentCustomer!!.email,
+                                    currentCustomer!!.id,newuserTxt.toString(), currentCustomer!!.password,
+                                currentCustomer!!.phone)
+                                viewModel.updateUser(updateCustomer)
+                                Toast.makeText(context,"The Username Updated Successfully!",Toast.LENGTH_SHORT).show()
+                                currentCustomer=updateCustomer
+                                dismiss()
+                            }else{
+                                errorMsg.text = "Make sure from your name the fields must be match!"
+                                newuserTxt!!.clear()
+                            }
+                        }
+                    }
+
                     "email" ->{
                         emailLL.visibility=View.VISIBLE
                         passwordUpdateBtn.setOnClickListener {
                             if (newemailTxt.toString().isNotEmpty()&&confirmemailTxt.toString().isNotEmpty()){
                                 if(newemailTxt.toString().equals(confirmemailTxt.toString())){
                                     errorMsg.text = " "
+                                    var updatecustomer =Customer(newemailTxt.toString(), currentCustomer!!.id,
+                                        currentCustomer!!.name, currentCustomer!!.password,
+                                        currentCustomer!!.phone)
                                     viewModel.updateUser(
-                                        currentCustomer!!,
-                                        newemailTxt.toString(), edit)
-                                    var updatecustomer =Customer(newemailTxt.toString(), currentCustomer!!.name,
-                                        currentCustomer!!.password,currentCustomer!!.phone)
+                                        updatecustomer
+                                    )
+                                    Toast.makeText(context,"The email Updated Successfully!",Toast.LENGTH_SHORT).show()
                                         currentCustomer=updatecustomer
                                     dismiss()
                                 }else{
@@ -70,13 +94,12 @@ class EditDialog(context: Context, val edit: String, val required: accountFragme
                                         .equals(confirmpassswordTxt.toString())
                                 ) {
                                     errorMsg.text = " "
-                                    viewModel.updateUser(
-                                        currentCustomer!!,
-                                        md5Hash(newpassswordTxt.toString()), edit
-                                    )
-                                    var updatecustomer =Customer(currentCustomer!!.email, currentCustomer!!.name,md5Hash(newpassswordTxt.toString()),
+                                    var updateCustomer=Customer(currentCustomer!!.email, currentCustomer!!.id, currentCustomer!!.name,md5Hash(newpassswordTxt.toString()),
                                         currentCustomer!!.phone)
-                                    currentCustomer=updatecustomer
+                                    viewModel.updateUser(
+                                        updateCustomer)
+                                    Toast.makeText(context,"The Password Updated Successfully!",Toast.LENGTH_SHORT).show()
+                                    currentCustomer=updateCustomer
                                     dismiss()
                                 } else {
                                     errorMsg.text = "Passwords must be match, Try Again!"
@@ -97,19 +120,21 @@ class EditDialog(context: Context, val edit: String, val required: accountFragme
                                     errorMsg.text = "Your phone number matches your old number"
                                 } else {
                                     errorMsg.text = " "
+                                    val updateCustomer=Customer(
+                                        currentCustomer!!.email, currentCustomer!!.id,currentCustomer!!.name,
+                                        currentCustomer!!.password,userphone.text.toString()
+                                    )
                                     viewModel.updateUser(
-                                        currentCustomer!!,
-                                        userphone.text.toString(),
-                                        edit)
-                                    var updatecustomer =Customer(
-                                        currentCustomer!!.email, currentCustomer!!.name,
-                                        currentCustomer!!.password,userphone.text.toString())
-                                        currentCustomer=updatecustomer
+                                        updateCustomer
+                                    )
+                                    Toast.makeText(context,"The Phone Number Updated Successfully!",Toast.LENGTH_SHORT).show()
+                                    currentCustomer=updateCustomer
                                     dismiss()
                                 }
                             }
                         }
                     }
+
 
                 }
 
