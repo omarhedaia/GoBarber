@@ -48,9 +48,9 @@ class SingUpFragment : Fragment() {
                     userName!!.isNotEmpty() && userPhone!!.isNotEmpty()) {
                     if (userEmail.toString() == userConfirmEmail.toString()) {
                         if (userPass.toString() == userConfirmPass.toString()) {
-                            val newUser = Customer(
-                                userEmail.toString(), userName.toString(),
-                                md5Hash(userPass.toString()), userPhone.toString()
+                            val newUser = Customer(userEmail.toString(),"",
+                                 userName.toString(), md5Hash(userPass.toString()),
+                                 userPhone.toString()
                             )
                             viewModel.saveUser(newUser)
                             //Toast.makeText(requireContext(), "Customer Added", Toast.LENGTH_LONG).show()

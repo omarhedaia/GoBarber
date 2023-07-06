@@ -81,7 +81,7 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentBarbersLocationBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(CustomersViewModel::class.java)
         servicesProvidersAdapter = ServicesProvidersAdapter(this)
@@ -199,14 +199,13 @@ class BarbersLocationFragment : Fragment(),ServicesProvidersAdapter.onClick,OnMa
                 val barberInfoMarkerBinding = BarberInfoMarkerBinding.inflate(LayoutInflater.from(requireContext()),null,false)
                 val currentLocationLayoutBinding = CurrentLocationLayoutBinding.inflate(LayoutInflater.from(requireContext()),null,false)
 
-
                 val serviceProviderDto:ServiceProviderLocation? = marker.tag as ServiceProviderLocation?
                 if (serviceProviderDto!=null)
                 {
                     barberInfoMarkerBinding.apply {
 //                        val distanceString = "${(serviceProviderDto.distance)}"
                         val distanceFloatString = String.format("%.1f",serviceProviderDto.distance) + " km"
-                        barberTitleTv.text = serviceProviderDto.name
+                        barberTitleTv.text = serviceProviderDto.name.toString()
                         barberDistanceTv.text = distanceFloatString
                         barberMintimeTv.text = serviceProviderDto.minimumWaitTime.toString()
                         barberMaxtimeTv.text = serviceProviderDto.maximumWaitTime.toString()

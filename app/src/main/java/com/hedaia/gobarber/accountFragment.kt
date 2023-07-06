@@ -41,6 +41,17 @@ class accountFragment : Fragment() {
             userPhone.setText(currentCustomer!!.phone)
 
 
+            username.setOnClickListener {
+                var editDialog =
+                    EditDialog(requireContext(),
+                        "name", this@accountFragment)
+                editDialog.show()
+                editDialog.setCancelable(false)
+                welcomingtxt.text="Welcome ${currentCustomer!!.name}!"
+                username.setText(currentCustomer!!.name)
+            }
+
+
             userPassword.setOnClickListener {
                 var editDialog =
                     EditDialog(requireContext(),
@@ -55,6 +66,7 @@ class accountFragment : Fragment() {
                         "email", this@accountFragment)
                 editDialog.show()
                 editDialog.setCancelable(false)
+                useremail.setText(currentCustomer!!.email)
             }
             userPhone.setOnClickListener {
                 var editDialog =
@@ -62,6 +74,7 @@ class accountFragment : Fragment() {
                         "phone", this@accountFragment)
                 editDialog.show()
                 editDialog.setCancelable(false)
+                userPhone.setText(currentCustomer!!.phone)
             }
             backToProfileIV.setOnClickListener {
                 findNavController().navigate(R.id.action_accountFragment_to_customerProfileFragment)

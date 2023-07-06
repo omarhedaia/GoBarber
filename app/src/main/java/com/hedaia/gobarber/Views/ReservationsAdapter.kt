@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hedaia.gobarber.Models.Reservation
 import com.hedaia.gobarber.databinding.ReservationHistoryRowBinding
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class ReservationsAdapter (var clickListener: onClickListener): RecyclerView.Adapter<ReservationsAdapter.itemViewHolder>(){
@@ -24,9 +26,14 @@ class ReservationsAdapter (var clickListener: onClickListener): RecyclerView.Ada
         holder.binding.apply {
 
             serviceProviderTV.text = reservation.serviceProviderId
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+            val dateTime = LocalDateTime.parse(reservation.date, formatter)
+            val date = dateTime.toLocalDate()
+            val time = dateTime.toLocalTime()
 
-            date.text=reservation.date!!
-            barberId.text=reservation.barberID
+            dateEtTxt.text=date.toString()
+            timeEtTxt.text=time.toString()
+            barberId.text=reservation.barberID!!.name
 
             reservationDe.setOnClickListener {
                 clickListener.reservationUser(reservation)

@@ -3,7 +3,7 @@ package com.hedaia.gobarber.Models
 data class Reservation(
     val reservationID:String?=null,
     val customerID:String?=null,
-    val barberID:String?=null,
+    var barberID:Barbers?=null,
     val serviceProviderId:String?=null,
     val services:String?=null,
     val date:String?=null,
