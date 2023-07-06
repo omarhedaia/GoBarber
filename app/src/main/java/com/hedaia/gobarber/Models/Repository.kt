@@ -51,7 +51,7 @@ class Repository {
     //Updated to ID
     fun saveUser(user: Customer) {
         val pushed=myRef.child("Customers").push()
-            pushed.setValue(Customer(user.email,pushed.key,user.name,user.password,user.phone))
+        pushed.setValue(Customer(user.email,pushed.key,user.name,user.password,user.phone))
         Log.d("Saved??", "SavedUser!")
         getUsers()
 
@@ -264,7 +264,7 @@ class Repository {
                 it.children.map { dataSnapshot -> dataSnapshot.getValue(Reservation::class.java)!! }
             Log.d("Reservation", "getReservations: $value")
             for (reservationIn in value) {
-                if ((reservationIn.barberID == barberName) && (reservationIn.status == "Not Yet")) {
+                if ((reservationIn.barberID!!.name == barberName) && (reservationIn.status == "Not Yet")) {
                     Log.d("reservation", "res: ${reservationIn.totalTime} ")
                     totalWaitTime += (reservationIn.totalTime?.toInt() ?: 0)
 
@@ -448,6 +448,7 @@ class Repository {
                 newReservation.serviceProviderId,
                 newReservation.services,
                 newReservation.date,
+                newReservation.showUpTime,
                 newReservation.totalPrice,
                 newReservation.totalTime,
                 newReservation.status
@@ -501,10 +502,9 @@ class Repository {
     // Read from the database
     fun getAgenda(): LiveData<List<Agenda>> {
         myRef.child("Agenda").get().addOnSuccessListener {
-            val value =
-                it.children.map { dataSnapshot -> dataSnapshot.getValue(Agenda::class.java)!! }
+            val value = it.children.map { dataSnapshot -> dataSnapshot.getValue(Agenda::class.java)!! }
             AgendaLiveData.postValue(value)
-            Log.d("Agenda", "getAgenda: $AgendaLiveData")
+            Log.d("Agenda", "getAgenda: $value")
         }
         return AgendaLiveData
     }

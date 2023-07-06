@@ -70,7 +70,7 @@ class CurrentReserrvationFragment : Fragment() {
                 }.start()
 
                 serviceProviderTV.text = currentReservation!!.serviceProviderId
-                barberNameTv.text = currentReservation!!.barberID
+                barberNameTv.text = currentReservation!!.barberID!!.name
                 reservingTimeTv.text = formatDateAndTime(currentReservation!!.date!!)
                 showUpTimeTv.text = formatDateAndTime(currentReservation!!.showUpTime!!)
                 totalpriceTv.text = currentReservation!!.totalPrice

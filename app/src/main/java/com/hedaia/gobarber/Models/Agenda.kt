@@ -1,4 +1,6 @@
 package com.hedaia.gobarber.Models
 
-data class Agenda(val name:String?=null,
-val featureName:String?=null, val featureDesc:String?=null)
+data class Agenda( val id :String?=null,
+                   var name:String?="",
+                   var featureName:String?="",
+                   var featureDesc:String?="")

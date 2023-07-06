@@ -80,12 +80,13 @@ class ReservationFragment : Fragment(),BarbersAdapter.onClick,ServicesAdapter.on
 
         binding.apply {
             bookBtn.setOnClickListener {
-
                 if(chosenBarber!=null&&servicesUserList.isNotEmpty()&&price!=0&&time!=0){
+
+                    //Show up time
                     newReservation= Reservation("",currentCustomer!!.id,
                         chosenBarber!!, currentServiceProvider!!.name,
                         servicesUserListString.joinToString(","),
-                        LocalDateTime.now().toString(), price.toString(),time.toString(),)
+                        LocalDateTime.now().toString(),LocalDateTime.now().toString(),price.toString(),time.toString(),"Not Yet")
                     viewModel.saveReservation(newReservation!!)
                    findNavController().navigate(R.id.action_reservationFragment_to_barbersLocationFragment)
                 }else{
